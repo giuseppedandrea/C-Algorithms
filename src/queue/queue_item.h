@@ -1,5 +1,5 @@
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef QUEUE_ITEM_H
+#define QUEUE_ITEM_H
 
 #include <stdio.h>
 

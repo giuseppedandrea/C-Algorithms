@@ -1,5 +1,5 @@
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef SET_ITEM_H
+#define SET_ITEM_H
 
 #include <stdio.h>
 

@@ -1,5 +1,5 @@
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef STACK_ITEM_H
+#define STACK_ITEM_H
 
 #include <stdio.h>
 
