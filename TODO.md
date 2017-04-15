@@ -1,12 +1,12 @@
 ### sorting/
 
-  - BubbleSort
-  - SelectionSort
-  - InsertionSort
-  - ShellSort
-  - CountingSort
-  - MergeSort
-  - QuickSort
+  - ~~BubbleSort~~
+  - ~~SelectionSort~~
+  - ~~InsertionSort~~
+  - ~~ShellSort~~
+  - ~~CountingSort~~
+  - ~~MergeSort~~
+  - ~~QuickSort~~
 
 ### combinatorics/
 
