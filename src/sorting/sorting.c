@@ -177,7 +177,6 @@ void QuickSortR(SortingItem *A, int l, int r ) {
   if (r<=l) {
     return;
   }
-  printf("text\n");
   q=HoarePartition(A, l, r);
   QuickSortR(A, l, q-1);
   QuickSortR(A, q+1, r);
