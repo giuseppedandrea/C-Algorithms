@@ -3,7 +3,7 @@
 
 #include "sorting_item.h"
 
-void  BubbleSort      (SortingItem *A, int l, int r);
+void  BubbleSort      (void *arr, size_t n_data, size_t data_size, int (*cmp)(const void *a, const void *b));
 void  SelectionSort   (SortingItem *A, int l, int r);
 void  InsertionSort   (SortingItem *A, int l, int r);
 void  ShellSort       (SortingItem *A, int l, int r);

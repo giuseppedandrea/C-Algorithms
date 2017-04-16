@@ -1,21 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "sorting.h"
 
-void BubbleSort(SortingItem *A, int l, int r) {
-  int i, j, flag;
-  SortingItem temp;
-  flag=1;
-  for(i=l; i<r && flag==1; i++) {
+void Swap(void *a, void *b, size_t length) {
+  size_t i;
+  char *p=a, *q=b, tmp;
+  if (p!=q) {
+    for (i=0; i<length; i++) {
+      tmp=p[i];
+      p[i]=q[i];
+      q[i]=tmp;
+    }
+  }
+}
+
+void BubbleSort(void *arr, size_t n_data, size_t data_size, int (*cmp)(const void *a, const void *b)) {
+  size_t i, j;
+  int flag;
+  for(i=0, flag=1; i<n_data && flag==1; i++) {
     flag=0;
-    for (j=l; j<(r-i+l); j++)
-      if (SORTINGitemGreater(A[j],A[j+1])) {
+    for (j=0; j<(n_data-i-1); j++) {
+      if (cmp((arr+(j*data_size)),(arr+((j+1)*data_size)))>0) {
         flag=1;
-        temp=A[j];
-        A[j]=A[j+1];
-		    A[j+1]=temp;
+        Swap(arr+(j*data_size), arr+((j+1)*data_size), data_size);
       }
+    }
   }
   return;
 }

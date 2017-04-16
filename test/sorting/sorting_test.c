@@ -7,6 +7,10 @@
 
 #include "../../src/sorting/sorting.h"
 
+int cmp(const void *a, const void *b) {
+   return((*(int*)a)-(*(int*)b));
+}
+
 int main(int argc, char const *argv[]) {
   int i, n;
   FILE *fp_test;
@@ -30,21 +34,21 @@ int main(int argc, char const *argv[]) {
     input[i]=SORTINGitemScan(fp_test);
   }
 
-  SortingItem *bubble_sort=(SortingItem*)malloc(n*sizeof(*input));
+  int *bubble_sort=(int*)malloc(n*sizeof(*bubble_sort));
   for (i=0; i<n; i++) {
-    bubble_sort[i]=input[i];
+    bubble_sort[i]=SORTINGkeyGet(input[i]);
   }
   printf("BubbleSort array input\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(bubble_sort[i], stdout);
-    printf("\n");
+    printf("%d ", bubble_sort[i]);
   }
-  BubbleSort(bubble_sort, 0, n-1);
+  printf("\n");
+  BubbleSort(bubble_sort, n, sizeof(int), cmp);
   printf("BubbleSort array sorted\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(bubble_sort[i], stdout);
-    printf("\n");
+    printf("%d ", bubble_sort[i]);
   }
+  printf("\n");
 
   SortingItem *selection_sort=(SortingItem*)malloc(n*sizeof(*input));
   for (i=0; i<n; i++) {
