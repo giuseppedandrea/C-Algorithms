@@ -84,7 +84,7 @@ void ShellSort(void *arr, size_t n_data, size_t data_size, int (*cmp)(const void
   }
 }
 
-void CountingSort(int *arr, int n_data, int max_data) {
+void CountingSort(int *arr, size_t n_data, size_t max_data) {
   size_t i, k=max_data+1;
   int *occ, *out;
   occ=(int*)calloc(k, sizeof(*occ));
@@ -95,7 +95,7 @@ void CountingSort(int *arr, int n_data, int max_data) {
   for (i=1; i<k; i++) {
     occ[i]+=occ[i-1];
   }
-  for (i=(n_data-1); i>=1; i--) {
+  for (i=0; i<n_data; i++) {
     out[occ[arr[i]]-1]=arr[i];
     occ[arr[i]]--;
   }
