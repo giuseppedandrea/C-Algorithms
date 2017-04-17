@@ -29,14 +29,14 @@ int main(int argc, char const *argv[]) {
   }
 
   fscanf(fp_test, "%d", &n);
-  SortingItem *input=(SortingItem*)malloc(n*sizeof(*input));
+  int *input=(int*)malloc(n*sizeof(*input));
   for (i=0; i<n; i++) {
-    input[i]=SORTINGitemScan(fp_test);
+    fscanf(fp_test, "%d", &input[i]);
   }
 
   int *bubble_sort=(int*)malloc(n*sizeof(*bubble_sort));
   for (i=0; i<n; i++) {
-    bubble_sort[i]=SORTINGkeyGet(input[i]);
+    bubble_sort[i]=input[i];
   }
   printf("BubbleSort array input\n");
   for (i=0; i<n; i++) {
@@ -50,105 +50,105 @@ int main(int argc, char const *argv[]) {
   }
   printf("\n");
 
-  SortingItem *selection_sort=(SortingItem*)malloc(n*sizeof(*input));
+  int *selection_sort=(int*)malloc(n*sizeof(*selection_sort));
   for (i=0; i<n; i++) {
     selection_sort[i]=input[i];
   }
   printf("SelectionSort array input\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(selection_sort[i], stdout);
-    printf("\n");
+    printf("%d ", selection_sort[i]);
   }
-  SelectionSort(selection_sort, 0, n-1);
+  printf("\n");
+  SelectionSort(selection_sort, n, sizeof(int), cmp);
   printf("SelectionSort array sorted\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(selection_sort[i], stdout);
-    printf("\n");
+    printf("%d ", selection_sort[i]);
   }
+  printf("\n");
 
-  SortingItem *insertion_sort=(SortingItem*)malloc(n*sizeof(*input));
+  int *insertion_sort=(int*)malloc(n*sizeof(*insertion_sort));
   for (i=0; i<n; i++) {
     insertion_sort[i]=input[i];
   }
   printf("InsertionSort array input\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(insertion_sort[i], stdout);
-    printf("\n");
+    printf("%d ", insertion_sort[i]);
   }
-  InsertionSort(insertion_sort, 0, n-1);
+  printf("\n");
+  InsertionSort(insertion_sort, n, sizeof(int), cmp);
   printf("InsertionSort array sorted\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(insertion_sort[i], stdout);
-    printf("\n");
+    printf("%d ", insertion_sort[i]);
   }
+  printf("\n");
 
-  SortingItem *shell_sort=(SortingItem*)malloc(n*sizeof(*input));
+  int *shell_sort=(int*)malloc(n*sizeof(*shell_sort));
   for (i=0; i<n; i++) {
     shell_sort[i]=input[i];
   }
   printf("ShellSort array input\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(shell_sort[i], stdout);
-    printf("\n");
+    printf("%d ", shell_sort[i]);
   }
-  ShellSort(shell_sort, 0, n-1);
+  printf("\n");
+  ShellSort(shell_sort, n, sizeof(int), cmp);
   printf("ShellSort array sorted\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(shell_sort[i], stdout);
-    printf("\n");
+    printf("%d ", shell_sort[i]);
   }
+  printf("\n");
 
-  SortingItem *counting_sort=(SortingItem*)malloc(n*sizeof(*input));
+  int *counting_sort=(int*)malloc(n*sizeof(*counting_sort));
   for (i=0; i<n; i++) {
     counting_sort[i]=input[i];
   }
   printf("CountingSort array input\n");
   int max=INT_MIN;
   for (i=0; i<n; i++) {
-    SORTINGitemShow(counting_sort[i], stdout);
-    printf("\n");
-    if (SORTINGkeyGet(counting_sort[i])>max) {
-      max=SORTINGkeyGet(counting_sort[i]);
+    printf("%d ", counting_sort[i]);
+    if (counting_sort[i]>max) {
+      max=counting_sort[i];
     }
   }
-  CountingSort(counting_sort, 0, n-1, max+1);
+  printf("\n");
+  CountingSort(counting_sort, n, max);
   printf("CountingSort array sorted\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(counting_sort[i], stdout);
-    printf("\n");
+    printf("%d ", counting_sort[i]);
   }
+  printf("\n");
 
-  SortingItem *merge_sort=(SortingItem*)malloc(n*sizeof(*input));
+  int *merge_sort=(int*)malloc(n*sizeof(*merge_sort));
   for (i=0; i<n; i++) {
     merge_sort[i]=input[i];
   }
   printf("MergeSort array input\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(merge_sort[i], stdout);
-    printf("\n");
+    printf("%d ", merge_sort[i]);
   }
-  MergeSort(merge_sort, 0, n-1);
+  printf("\n");
+  MergeSort(merge_sort, n, sizeof(int), cmp);
   printf("MergeSort array sorted\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(merge_sort[i], stdout);
-    printf("\n");
+    printf("%d ", merge_sort[i]);
   }
+  printf("\n");
 
-  SortingItem *quick_sort=(SortingItem*)malloc(n*sizeof(*input));
+  int *quick_sort=(int*)malloc(n*sizeof(*quick_sort));
   for (i=0; i<n; i++) {
     quick_sort[i]=input[i];
   }
   printf("QuickSort array input\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(quick_sort[i], stdout);
-    printf("\n");
+    printf("%d ", quick_sort[i]);
   }
-  QuickSort(quick_sort, 0, n-1);
+  printf("\n");
+  QuickSort(quick_sort, n, sizeof(int), cmp);
   printf("QuickSort array sorted\n");
   for (i=0; i<n; i++) {
-    SORTINGitemShow(quick_sort[i], stdout);
-    printf("\n");
+    printf("%d ", quick_sort[i]);
   }
+  printf("\n");
 
   return(0);
 }

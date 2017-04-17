@@ -4,16 +4,21 @@
 
 #include "sorting.h"
 
-void Swap(void *a, void *b, size_t length) {
+void CopyMem(void *dest, void *src, size_t length) {
   size_t i;
-  char *p=a, *q=b, tmp;
+  char *p=dest, *q=src;
   if (p!=q) {
     for (i=0; i<length; i++) {
-      tmp=p[i];
       p[i]=q[i];
-      q[i]=tmp;
     }
   }
+}
+
+void Swap(void *a, void *b, size_t length) {
+  void *tmp=(void *)malloc(length);
+  CopyMem(tmp, a, length);
+  CopyMem(a, b, length);
+  CopyMem(b, tmp, length);
 }
 
 void BubbleSort(void *arr, size_t n_data, size_t data_size, int (*cmp)(const void *a, const void *b)) {
@@ -31,134 +36,122 @@ void BubbleSort(void *arr, size_t n_data, size_t data_size, int (*cmp)(const voi
   return;
 }
 
-void SelectionSort(SortingItem *A, int l, int r) {
-  int i, j, min;
-  SortingItem temp;
-  for(i=l; i<r; i++) {
+void SelectionSort(void *arr, size_t n_data, size_t data_size, int (*cmp)(const void *a, const void *b)) {
+  size_t i, j, min;
+  for(i=0; i<n_data; i++) {
     min=i;
-  	for (j=(i+1); j<=r; j++) {
-      if (SORTINGitemLess(A[j],A[min])){
+  	for (j=(i+1); j<n_data; j++) {
+      if (cmp((arr+(j*data_size)),(arr+(min*data_size)))<0) {
         min=j;
       }
     }
-    temp=A[i];
-    A[i]=A[min];
-    A[min]=temp;
+    Swap(arr+(i*data_size), arr+(min*data_size), data_size);
   }
   return;
 }
 
-void InsertionSort(SortingItem *A, int l, int r) {
-  int i, j;
-  SortingItem x;
-  for (i=(l+1); i<=r; i++) {
-    x=A[i];
+void InsertionSort(void *arr, size_t n_data, size_t data_size, int (*cmp)(const void *a, const void *b)) {
+  size_t i, j;
+  void *x=(void *)malloc(data_size);
+  for (i=1; i<n_data; i++) {
+    CopyMem(x, (arr+(i*data_size)), data_size);
     j=(i-1);
-    while (j>=l && SORTINGitemLess(x, A[j])) {
-      A[j+1]=A[j];
+    while ((j>=0) && (cmp(x,(arr+(j*data_size)))<0)) {
+      CopyMem((arr+((j+1)*data_size)), (arr+(j*data_size)), data_size);
       j--;
     }
-    A[j+1]=x;
+    CopyMem((arr+((j+1)*data_size)), x, data_size);
   }
 }
 
-void ShellSort(SortingItem *A, int l, int r) {
-  int i, j, h=1, n=(r-l+1);
-  SortingItem tmp;
-  while (h<(n/3)) {
+void ShellSort(void *arr, size_t n_data, size_t data_size, int (*cmp)(const void *a, const void *b)) {
+  size_t i, j, h=1;
+  void *tmp=(void *)malloc(data_size);
+  while (h<(n_data/3)) {
     h=((3*h)+1);
   }
   while(h>=1) {
-    for (i=(l+h); i<=r; i++) {
+    for (i=h; i<n_data; i++) {
       j=i;
-      tmp=A[i];
-      while(j>=(l+h) && SORTINGitemLess(tmp, A[j-h])) {
-        A[j]=A[j-h];
+      CopyMem(tmp, (arr+(j*data_size)), data_size);
+      while ((j>=h) && (cmp(tmp,(arr+((j-h)*data_size)))<0)) {
+        CopyMem((arr+((j)*data_size)), (arr+((j-h)*data_size)), data_size);
         j-=h;
       }
-      A[j]=tmp;
+      CopyMem((arr+(j*data_size)), tmp, data_size);
     }
     h=(h/3);
   }
 }
 
-void CountingSort(SortingItem *A, int l, int r, int k) {
-  int i, n, *C;
-  SortingItem *B;
-  n=(r-l+1);
-  B=(SortingItem*)malloc(n*sizeof(SortingItem));
-  C=(int*)malloc(k*sizeof(int));
-  for (i=0; i<k; i++) {
-    C[i]=0;
-  }
-  for (i=l; i<=r; i++) {
-    C[SORTINGkeyGet(A[i])]++;
+void CountingSort(int *arr, int n_data, int max_data) {
+  size_t i, k=max_data+1;
+  int *occ, *out;
+  occ=(int*)calloc(k, sizeof(*occ));
+  out=(int*)malloc(n_data*sizeof(*out));
+  for (i=0; i<n_data; i++) {
+    occ[arr[i]]++;
   }
   for (i=1; i<k; i++) {
-    C[i]+=C[i-1];
+    occ[i]+=occ[i-1];
   }
-  for (i=r; i>=l; i--) {
-    B[C[SORTINGkeyGet(A[i])]-1]=A[i];
-    C[SORTINGkeyGet(A[i])]--;
+  for (i=(n_data-1); i>=1; i--) {
+    out[occ[arr[i]]-1]=arr[i];
+    occ[arr[i]]--;
   }
-  for (i=l; i<=r; i++) {
-    A[i]=B[i];
+  for (i=0; i<n_data; i++) {
+    arr[i]=out[i];
   }
 }
 
-void Merge(SortingItem *A, SortingItem *B, int l, int q, int r) {
-  int i, j, k;
+void Merge(void *arr, void *out, size_t l, size_t q, size_t r, size_t data_size, int (*cmp)(const void *a, const void *b)) {
+  size_t i, j, k;
   i=l;
   j=q+1;
   for(k=l; k<=r; k++) {
     if (i>q) {
-      B[k]=A[j++];
+      CopyMem((out+(k*data_size)), (arr+((j++)*data_size)), data_size);
     } else if (j>r)  {
-      B[k]=A[i++];
-    } else if (SORTINGitemLessEqual(A[i], A[j])) {
-      B[k]=A[i++];
+      CopyMem((out+(k*data_size)), (arr+((i++)*data_size)), data_size);
+    } else if (cmp((arr+(i*data_size)),(arr+(j*data_size)))<=0) {
+      CopyMem((out+(k*data_size)), (arr+((i++)*data_size)), data_size);
     } else {
-      B[k]=A[j++];
+      CopyMem((out+(k*data_size)), (arr+((j++)*data_size)), data_size);
     }
   }
-  for (k=l; k<=r; k++) {
-    A[k]=B[k];
+  for (k=0; k<=r; k++) {
+    CopyMem((arr+(k*data_size)), (out+(k*data_size)), data_size);
   }
   return;
 }
 
-void MergeSortR(SortingItem *A, SortingItem *B, int l, int r) {
-  int q;
+void MergeSortR(void *arr, void *out, size_t l, size_t r, size_t data_size, int (*cmp)(const void *a, const void *b)) {
+  size_t q;
   if (r<=l) {
     return;
   }
   q=(l+r)/2;
-  MergeSortR(A, B, l, q);
-  MergeSortR(A, B, q+1, r);
-  Merge(A, B, l, q, r);
+  MergeSortR(arr, out, l, q, data_size, cmp);
+  MergeSortR(arr, out, q+1, r, data_size, cmp);
+  Merge(arr, out, l, q, r, data_size, cmp);
 }
 
-void MergeSort(SortingItem *A, int l, int r) {
-  SortingItem *B=(SortingItem*)malloc((r-l+1)*sizeof(SortingItem));
-  MergeSortR(A, B, l, r);
+void MergeSort(void *arr, size_t n_data, size_t data_size, int (*cmp)(const void *a, const void *b)) {
+  void *out=(void*)malloc(n_data*sizeof(*out));
+  MergeSortR(arr, out, 0, n_data-1, data_size, cmp);
 }
 
-void swap(SortingItem *v, int n1, int n2) {
-  SortingItem temp;
-  temp=v[n1];
-  v[n1]=v[n2];
-  v[n2]=temp;
-  return;
-}
-
-int HoarePartition(SortingItem *A, int l, int r ) {
-  int i, j;
-  SortingItem x=A[r];
-  i=l-1;
-  j=r;
-  for ( ; ; ) {
-    while(SORTINGitemLess(A[++i], x));
-    while(SORTINGitemLess(x, A[--j])) {
+size_t HoarePartition(void *arr, size_t l, size_t r, size_t data_size, int (*cmp)(const void *a, const void *b)) {
+  size_t i, j;
+  i=l;
+  j=r+1;
+  while (1) {
+    while (cmp((arr+(++i*data_size)), (arr+(l*data_size)))<0) {
+      if (i==r) {
+        break;
+      }
+    }
+    while (cmp((arr+(l*data_size)), (arr+(--j*data_size)))<0) {
       if (j==l) {
         break;
       }
@@ -166,23 +159,23 @@ int HoarePartition(SortingItem *A, int l, int r ) {
     if (i>=j) {
       break;
     }
-    swap(A, i, j);
+    Swap((arr+(i*data_size)), (arr+(j*data_size)), data_size);
   }
-  swap(A, i, r);
-  return(i);
+  Swap((arr+(l*data_size)), (arr+(j*data_size)), data_size);
+  return(j);
 }
 
-void QuickSortR(SortingItem *A, int l, int r ) {
-  int q;
+void QuickSortR(void *arr, size_t l, size_t r, size_t data_size, int (*cmp)(const void *a, const void *b)) {
+  size_t q;
   if (r<=l) {
     return;
   }
-  q=HoarePartition(A, l, r);
-  QuickSortR(A, l, q-1);
-  QuickSortR(A, q+1, r);
+  q=HoarePartition(arr, l, r, data_size, cmp);
+  QuickSortR(arr, l, q-1, data_size, cmp);
+  QuickSortR(arr, q+1, r, data_size, cmp);
   return;
 }
 
-void QuickSort(SortingItem *A, int l, int r) {
-  QuickSortR(A, l, r);
+void QuickSort(void *arr, size_t n_data, size_t data_size, int (*cmp)(const void *a, const void *b)) {
+  QuickSortR(arr, 0, n_data-1, data_size, cmp);
 }
