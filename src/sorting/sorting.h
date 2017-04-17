@@ -1,7 +1,7 @@
 #ifndef SORTING_H
 #define SORTING_H
 
-#include "sorting_item.h"
+#include <stdio.h>
 
 void  BubbleSort      (void *arr, size_t n_data, size_t data_size, int (*cmp)(const void *a, const void *b));
 void  SelectionSort   (void *arr, size_t n_data, size_t data_size, int (*cmp)(const void *a, const void *b));
