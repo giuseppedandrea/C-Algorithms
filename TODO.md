@@ -10,19 +10,19 @@
 
 ### combinatorics/
 
-  - Multiplication Priciple
-  - Disposition simple
-  - Disposition with ripetitions
-  - Permutation simple
-  - Permutazione with ripetitions
-  - Combination simple
-  - Combination with ripetitions
-  - Powerset (Divide et impera)
-  - Powerset (Disposition with ripetition)
-  - Powerset (Combination simple)
-  - Partition (Disposition with ripetition)
-  - Partition (Er Algorithm I)
-  - Partition (Er Algorithm II)
+  - ~~Multiplication Priciple~~
+  - ~~Disposition simple~~
+  - ~~Disposition with ripetitions~~
+  - ~~Permutation simple~~
+  - ~~Permutazion with ripetitions~~
+  - ~~Combination simple~~
+  - ~~Combination with ripetitions~~
+  - ~~Powerset (Divide et impera)~~
+  - ~~Powerset (Disposition with ripetition)~~
+  - ~~Powerset (Combination simple)~~
+  - ~~Partition (Disposition with ripetition)~~
+  - ~~Partition (Er Algorithm I)~~
+  - ~~Partition (Er Algorithm II)~~
 
 ### item/
 
