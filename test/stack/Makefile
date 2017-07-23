@@ -24,4 +24,4 @@ clean:
 
 # To execute program
 run:
-	./$(EXEC)
+	./$(EXEC) $(ARGS)
