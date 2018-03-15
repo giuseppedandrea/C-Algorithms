@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <math.h>
 
-#include "../../src/set/set.h"
+#include "../src/set.h"
 
 int main(int argc, char const *argv[]) {
   int i, n1, n2;
