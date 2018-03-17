@@ -1,5 +1,5 @@
-# Name
-NAME = sorting
+# Folder name
+NAME := $(notdir $(CURDIR))
 
 # Declaration of variables
 CC = gcc
@@ -7,7 +7,7 @@ CC_FLAGS = -Wall -g
 
 # File names
 EXEC = $(NAME)_test.out
-SOURCES = ../src/$(NAME).c $(NAME)_test.c
+SOURCES = $(wildcard ../../src/$(NAME)/*.c) $(NAME)_test.c
 OBJECTS = $(SOURCES:%.c=%.o)
 
 # Main target

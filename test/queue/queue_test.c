@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <math.h>
 
-#include "../src/stack.h"
+#include "../../src/queue/queue.h"
 
 int main(int argc, char const *argv[]) {
   int i, n, mode;
@@ -25,34 +25,34 @@ int main(int argc, char const *argv[]) {
 
   fscanf(fp_test, "%d", &n);
 
-  StackArray array=STACKinitArray(n);
-  StackList list=STACKinitList();
+  QueueArray array=QUEUEinitArray(n);
+  QueueList list=QUEUEinitList();
 
   for (i=0; i<n; i++) {
     fscanf(fp_test, "%d", &mode);
-    StackItem data;
+    QueueItem data;
     switch (mode) {
       case 0:
-        data=STACKitemScan(fp_test);
+        data=QUEUEitemScan(fp_test);
         printf("Put: ");
-        STACKitemShow(data, stdout);
+        QUEUEitemShow(data, stdout);
         printf("\n");
-        STACKpushArray(array, data);
-        STACKpushList(list, data);
+        QUEUEputArray(array, data);
+        QUEUEputList(list, data);
         break;
       case 1:
         printf("Get array: ");
-        data=STACKpopArray(array);
-        STACKitemShow(data, stdout);
+        data=QUEUEgetArray(array);
+        QUEUEitemShow(data, stdout);
         printf("\n");
         printf("Get list: ");
-        data=STACKpopList(list);
-        STACKitemShow(data, stdout);
+        data=QUEUEgetList(list);
+        QUEUEitemShow(data, stdout);
         printf("\n");
         break;
       case 2:
-        printf("Empty array: %d\n", STACKemptyArray(array));
-        printf("Empty list: %d\n", STACKemptyList(list));
+        printf("Empty array: %d\n", QUEUEemptyArray(array));
+        printf("Empty list: %d\n", QUEUEemptyList(list));
         break;
       default:
         printf("Error mode!\n");
