@@ -43,12 +43,13 @@ int main(int argc, char const *argv[]) {
     printf("%d ", bubble_sort[i]);
   }
   printf("\n");
-  BubbleSort(bubble_sort, n, sizeof(int), cmp);
+  BubbleSort(bubble_sort, n, sizeof(*bubble_sort), cmp);
   printf("BubbleSort array sorted\n");
   for (i=0; i<n; i++) {
     printf("%d ", bubble_sort[i]);
   }
-  printf("\n");
+  printf("\n\n");
+  free(bubble_sort);
 
   int *selection_sort=(int*)malloc(n*sizeof(*selection_sort));
   for (i=0; i<n; i++) {
@@ -59,12 +60,13 @@ int main(int argc, char const *argv[]) {
     printf("%d ", selection_sort[i]);
   }
   printf("\n");
-  SelectionSort(selection_sort, n, sizeof(int), cmp);
+  SelectionSort(selection_sort, n, sizeof(*selection_sort), cmp);
   printf("SelectionSort array sorted\n");
   for (i=0; i<n; i++) {
     printf("%d ", selection_sort[i]);
   }
-  printf("\n");
+  printf("\n\n");
+  free(selection_sort);
 
   int *insertion_sort=(int*)malloc(n*sizeof(*insertion_sort));
   for (i=0; i<n; i++) {
@@ -75,12 +77,13 @@ int main(int argc, char const *argv[]) {
     printf("%d ", insertion_sort[i]);
   }
   printf("\n");
-  InsertionSort(insertion_sort, n, sizeof(int), cmp);
+  InsertionSort(insertion_sort, n, sizeof(*insertion_sort), cmp);
   printf("InsertionSort array sorted\n");
   for (i=0; i<n; i++) {
     printf("%d ", insertion_sort[i]);
   }
-  printf("\n");
+  printf("\n\n");
+  free(insertion_sort);
 
   int *shell_sort=(int*)malloc(n*sizeof(*shell_sort));
   for (i=0; i<n; i++) {
@@ -91,12 +94,13 @@ int main(int argc, char const *argv[]) {
     printf("%d ", shell_sort[i]);
   }
   printf("\n");
-  ShellSort(shell_sort, n, sizeof(int), cmp);
+  ShellSort(shell_sort, n, sizeof(*shell_sort), cmp);
   printf("ShellSort array sorted\n");
   for (i=0; i<n; i++) {
     printf("%d ", shell_sort[i]);
   }
-  printf("\n");
+  printf("\n\n");
+  free(shell_sort);
 
   int *counting_sort=(int*)malloc(n*sizeof(*counting_sort));
   for (i=0; i<n; i++) {
@@ -116,7 +120,8 @@ int main(int argc, char const *argv[]) {
   for (i=0; i<n; i++) {
     printf("%d ", counting_sort[i]);
   }
-  printf("\n");
+  printf("\n\n");
+  free(counting_sort);
 
   int *merge_sort=(int*)malloc(n*sizeof(*merge_sort));
   for (i=0; i<n; i++) {
@@ -127,12 +132,13 @@ int main(int argc, char const *argv[]) {
     printf("%d ", merge_sort[i]);
   }
   printf("\n");
-  MergeSort(merge_sort, n, sizeof(int), cmp);
+  MergeSort(merge_sort, n, sizeof(*merge_sort), cmp);
   printf("MergeSort array sorted\n");
   for (i=0; i<n; i++) {
     printf("%d ", merge_sort[i]);
   }
-  printf("\n");
+  printf("\n\n");
+  free(merge_sort);
 
   int *quick_sort=(int*)malloc(n*sizeof(*quick_sort));
   for (i=0; i<n; i++) {
@@ -143,12 +149,13 @@ int main(int argc, char const *argv[]) {
     printf("%d ", quick_sort[i]);
   }
   printf("\n");
-  QuickSort(quick_sort, n, sizeof(int), cmp);
+  QuickSort(quick_sort, n, sizeof(*quick_sort), cmp);
   printf("QuickSort array sorted\n");
   for (i=0; i<n; i++) {
     printf("%d ", quick_sort[i]);
   }
-  printf("\n");
+  printf("\n\n");
+  free(quick_sort);
 
   return(0);
 }
