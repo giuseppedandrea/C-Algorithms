@@ -29,4 +29,4 @@ clean:
 
 # To execute program
 run:
-	./$(EXEC).$(EXT) $(ARGS)
+	./$(EXEC).$(EXT) $(EXEC).in
