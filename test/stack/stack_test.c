@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <math.h>
 
-#include "../../src/stack/stack.h"
+#include "stack.h"
 
 int main(int argc, char const *argv[]) {
   int i, n, mode;

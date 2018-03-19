@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <math.h>
 
-#include "../../src/queue/queue.h"
+#include "queue.h"
 
 int main(int argc, char const *argv[]) {
   int i, n, mode;

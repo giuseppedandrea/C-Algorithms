@@ -5,7 +5,7 @@
 #include <math.h>
 #include <limits.h>
 
-#include "../../src/sorting/sorting.h"
+#include "sorting.h"
 
 int cmp(const void *a, const void *b) {
    return((*(int*)a)-(*(int*)b));
