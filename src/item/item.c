@@ -28,7 +28,7 @@ void CopyMem(void *dest, void *src, size_t length) {
 }
 
 Item ITEMnew(size_t n_members) {
-  Item item=(Item)malloc(sizeof(struct item));
+  Item item=(Item)malloc(sizeof(*item));
   if(item==NULL)
     return(ITEMsetVoid());
   item->members_size=(size_t *)malloc(n_members*sizeof(*(item->members_size)));
@@ -49,7 +49,8 @@ void ITEMfree(Item item) {
     free(item->members_size);
   if (item->members_data!=NULL)
     for (size_t i = 0; i < item->n_members; i++)
-      free(item->members_data[i]);
+      if (item->members_data[i]!=NULL)
+        free(item->members_data[i]);
   free(item);
   return;
 }
@@ -85,56 +86,56 @@ Item ITEMsetVoid(void) {
   return(item);
 }
 
-int ITEMequal(Item item_A, Item item_B, size_t index_member_key, int (*cmp_item_key)(const void *a, const void *b)) {
+int ITEMequal(Item item_A, Item item_B, size_t index_member_key, int (*cmp_member_key)(const void *a, const void *b)) {
   if (ITEMcheckVoid(item_A) || ITEMcheckVoid(item_B))
     return(-1);
   if (index_member_key<0 || index_member_key>(item_A->n_members))
     return(-1);
-  if (cmp_item_key(item_A->members_data[index_member_key], item_B->members_data[index_member_key])==0)
+  if (cmp_member_key(item_A->members_data[index_member_key], item_B->members_data[index_member_key])==0)
     return(1);
   else
     return(0);
 }
 
-int ITEMless(Item item_A, Item item_B, size_t index_member_key, int (*cmp_item_key)(const void *a, const void *b)) {
+int ITEMless(Item item_A, Item item_B, size_t index_member_key, int (*cmp_member_key)(const void *a, const void *b)) {
   if (ITEMcheckVoid(item_A) || ITEMcheckVoid(item_B))
     return(-1);
   if (index_member_key<0 || index_member_key>(item_A->n_members))
     return(-1);
-  if (cmp_item_key(item_A->members_data[index_member_key], item_B->members_data[index_member_key])<0)
+  if (cmp_member_key(item_A->members_data[index_member_key], item_B->members_data[index_member_key])<0)
     return(1);
   else
     return(0);
 }
 
-int ITEMlessEqual(Item item_A, Item item_B, size_t index_member_key, int (*cmp_item_key)(const void *a, const void *b)) {
+int ITEMlessEqual(Item item_A, Item item_B, size_t index_member_key, int (*cmp_member_key)(const void *a, const void *b)) {
   if (ITEMcheckVoid(item_A) || ITEMcheckVoid(item_B))
     return(-1);
   if (index_member_key<0 || index_member_key>(item_A->n_members))
     return(-1);
-  if (cmp_item_key(item_A->members_data[index_member_key], item_B->members_data[index_member_key])<=0)
+  if (cmp_member_key(item_A->members_data[index_member_key], item_B->members_data[index_member_key])<=0)
     return(1);
   else
     return(0);
 }
 
-int ITEMgreater(Item item_A, Item item_B, size_t index_member_key, int (*cmp_item_key)(const void *a, const void *b)) {
+int ITEMgreater(Item item_A, Item item_B, size_t index_member_key, int (*cmp_member_key)(const void *a, const void *b)) {
   if (ITEMcheckVoid(item_A) || ITEMcheckVoid(item_B))
     return(-1);
   if (index_member_key<0 || index_member_key>(item_A->n_members))
     return(-1);
-  if (cmp_item_key(item_A->members_data[index_member_key], item_B->members_data[index_member_key])>0)
+  if (cmp_member_key(item_A->members_data[index_member_key], item_B->members_data[index_member_key])>0)
     return(1);
   else
     return(0);
 }
 
-int ITEMgreaterEqual(Item item_A, Item item_B, size_t index_member_key, int (*cmp_item_key)(const void *a, const void *b)) {
+int ITEMgreaterEqual(Item item_A, Item item_B, size_t index_member_key, int (*cmp_member_key)(const void *a, const void *b)) {
   if (ITEMcheckVoid(item_A) || ITEMcheckVoid(item_B))
     return(-1);
   if (index_member_key<0 || index_member_key>(item_A->n_members))
     return(-1);
-  if (cmp_item_key(item_A->members_data[index_member_key], item_B->members_data[index_member_key])>=0)
+  if (cmp_member_key(item_A->members_data[index_member_key], item_B->members_data[index_member_key])>=0)
     return(1);
   else
     return(0);
