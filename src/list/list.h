@@ -6,7 +6,7 @@ typedef struct singly_list *OrderedSinglyList;
 typedef struct singly_list *SinglyList;
 
 SinglyList  SinglyListNew           (void);
-void        SinglyListFree          (SinglyList list);
+void        SinglyListFree          (SinglyList list, void (*free_list_data)(const void *list_data));
 void        SinglyListInsertHead    (UnorderedSinglyList list, void *list_data);
 void        SinglyListInsertTail    (UnorderedSinglyList list, void *list_data);
 void        SinglyListInsertSort    (OrderedSinglyList list, void *list_data, int (*cmp_list_data)(const void *a, const void *b));

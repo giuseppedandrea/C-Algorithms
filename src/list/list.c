@@ -22,11 +22,12 @@ SinglyList SinglyListNew(void) {
   return(list);
 }
 
-void SinglyListFree(SinglyList list) {
+void SinglyListFree(SinglyList list, void (*free_list_data)(const void *list_data)) {
   singly_link x=list->head;
   singly_link tmp;
   while (x!=NULL) {
     tmp=x;
+    free_list_data(x->data);
     x=x->next;
     free(tmp);
   }
