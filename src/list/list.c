@@ -18,6 +18,7 @@ SinglyList SinglyListNew(void) {
   SinglyList list=(SinglyList)malloc(sizeof(*list));
   if (list==NULL)
     return(NULL);
+  list->head=NULL;
   return(list);
 }
 
@@ -43,62 +44,56 @@ singly_link newSinglyNode(void *data, singly_link next) {
 }
 
 void SinglyListInsertHead(UnorderedSinglyList list, void *list_data) {
-  singly_link head=list->head;
-  head=newSinglyNode(list_data, head);
+  list->head=newSinglyNode(list_data, list->head);
   return;
 }
 
 void SinglyListInsertTail(UnorderedSinglyList list, void *list_data) {
-  singly_link head=list->head;
   singly_link x;
-  if (head==NULL) {
-    head=newSinglyNode(list_data, NULL);
+  if (list->head==NULL) {
+    list->head=newSinglyNode(list_data, NULL);
     return;
   }
-  for (x=head; x->next!=NULL; x=x->next);
+  for (x=list->head; x->next!=NULL; x=x->next);
   x->next=newSinglyNode(list_data, NULL);
   return;
 }
 
 void SinglyListInsertSort(OrderedSinglyList list, void *list_data, int (*cmp_list_data)(const void *a, const void *b)) {
-  singly_link head=list->head;
   singly_link x, p;
-  if (head==NULL || cmp_list_data(head->data, list_data)>0) {
-    head=newSinglyNode(list_data, head);
+  if (list->head==NULL || cmp_list_data(list->head->data, list_data)>0) {
+    list->head=newSinglyNode(list_data, list->head);
     return;
   }
-  for (x=head->next, p=head; x!=NULL && cmp_list_data(list_data, x->data)>0; p=x, x=x->next);
+  for (x=list->head->next, p=list->head; x!=NULL && cmp_list_data(list_data, x->data)>0; p=x, x=x->next);
   p->next=newSinglyNode(list_data, x);
   return;
 }
 
 void* SinglyListSearch(UnorderedSinglyList list, void *list_key, void* (*get_list_key)(const void *list_data), int (*cmp_list_key)(const void *a, const void *b)) {
-  singly_link head=list->head;
   singly_link x;
-  for (x=head; x!=NULL; x=x->next)
+  for (x=list->head; x!=NULL; x=x->next)
     if (cmp_list_key(get_list_key(x->data), list_key)==0)
       return(x->data);
   return(NULL);
 }
 
 void* SinglyListSearchSort(OrderedSinglyList list, void *list_key, void* (*get_list_key)(const void *list_data), int (*cmp_list_key)(const void *a, const void *b)) {
-  singly_link head=list->head;
   singly_link x;
-  for (x=head; x!=NULL && cmp_list_key(list_key, get_list_key(x->data))>=0; x=x->next)
+  for (x=list->head; x!=NULL && cmp_list_key(list_key, get_list_key(x->data))>=0; x=x->next)
     if (cmp_list_key(get_list_key(x->data), list_key)==0)
       return(x->data);
   return(NULL);
 }
 
 int SinglyListDeleteKey(UnorderedSinglyList list, void *list_key, void* (*get_list_key)(const void *list_data), int (*cmp_list_key)(const void *a, const void *b)) {
-  singly_link head=list->head;
   singly_link x, p;
-  if (head==NULL)
+  if (list->head==NULL)
     return(0);
-  for (x=head, p=NULL; x!=NULL; p=x, x=x->next) {
+  for (x=list->head, p=NULL; x!=NULL; p=x, x=x->next) {
     if (cmp_list_key(get_list_key(x->data), list_key)==0) {
-      if (x==head)
-        head=x->next;
+      if (x==list->head)
+        list->head=x->next;
       else
         p->next=x->next;
       free(x);
@@ -109,14 +104,13 @@ int SinglyListDeleteKey(UnorderedSinglyList list, void *list_key, void* (*get_li
 }
 
 int SinglyListDeleteKeySort(OrderedSinglyList list, void *list_key, void* (*get_list_key)(const void *list_data), int (*cmp_list_key)(const void *a, const void *b)) {
-  singly_link head=list->head;
   singly_link x, p;
-  if (head==NULL)
+  if (list->head==NULL)
     return(0);
-  for (x=head, p=NULL; x!=NULL && cmp_list_key(list_key ,get_list_key(x->data))>=0; p=x, x=x->next) {
+  for (x=list->head, p=NULL; x!=NULL && cmp_list_key(list_key ,get_list_key(x->data))>=0; p=x, x=x->next) {
     if (cmp_list_key(get_list_key(x->data), list_key)==0) {
-      if (x==head)
-        head=x->next;
+      if (x==list->head)
+        list->head=x->next;
       else
         p->next=x->next;
       free(x);
@@ -127,45 +121,41 @@ int SinglyListDeleteKeySort(OrderedSinglyList list, void *list_key, void* (*get_
 }
 
 int SinglyListDeleteHead(SinglyList list) {
-  singly_link head=list->head;
-  singly_link tmp=head;
-  if (head==NULL)
+  singly_link tmp=list->head;
+  if (list->head==NULL)
     return(0);
-  head=head->next;
+  list->head=list->head->next;
   free(tmp);
   return(1);
 }
 
 int SinglyListDeleteTail(SinglyList list) {
-  singly_link head=list->head;
   singly_link x, tmp;
-  if (head==NULL)
+  if (list->head==NULL)
     return(0);
-  for (x=head; x->next!=NULL; tmp=x, x=x->next);
+  for (x=list->head; x->next!=NULL; tmp=x, x=x->next);
   tmp->next=NULL;
   free(x);
   return(1);
 }
 
 void* SinglyListExtractHead(SinglyList list) {
-  singly_link head=list->head;
-  singly_link tmp=head;
+  singly_link tmp=list->head;
   void *data;
   if (tmp==NULL)
     return(NULL);
   data=tmp->data;
-  head=tmp->next;
+  list->head=tmp->next;
   free(tmp);
   return(data);
 }
 
 void* SinglyListExtractTail(SinglyList list) {
-  singly_link head=list->head;
   singly_link x, p;
   void *data=NULL;
-  for (x=head; x!=NULL; p=x, x=x->next);
-  if (x==head) {
-    head=x->next;
+  for (x=list->head; x!=NULL; p=x, x=x->next);
+  if (x==list->head) {
+    list->head=x->next;
     data=x->data;
   } else {
     p->next=x->next;
@@ -176,13 +166,12 @@ void* SinglyListExtractTail(SinglyList list) {
 }
 
 void* SinglyListExtractKey(SinglyList list, void *list_key, void* (*get_list_key)(const void *list_data), int (*cmp_list_key)(const void *a, const void *b)) {
-  singly_link head=list->head;
   singly_link x, p;
   void *data=NULL;
-  for (x=head; x!=NULL; p=x, x=x->next) {
+  for (x=list->head; x!=NULL; p=x, x=x->next) {
     if (cmp_list_key(get_list_key(x->data), list_key)==0) {
-      if (x==head) {
-        head=x->next;
+      if (x==list->head) {
+        list->head=x->next;
         data=x->data;
       } else {
         p->next=x->next;
@@ -196,9 +185,9 @@ void* SinglyListExtractKey(SinglyList list, void *list_key, void* (*get_list_key
 }
 
 void SinglyListPrint(SinglyList list, void (*print_list_data)(const void *list_data)) {
-  singly_link head=list->head;
   singly_link x;
-  for (x=head; x!=NULL; x=x->next)
+  for (x=list->head; x!=NULL; x=x->next) {
     print_list_data(x->data);
+  }
   return;
 }
