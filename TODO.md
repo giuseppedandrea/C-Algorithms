@@ -31,6 +31,7 @@
 ### list/
 
   - Singly Linked List
+    - Add tail link
   - Doubly Linked List
   - Circular Linked List
 
