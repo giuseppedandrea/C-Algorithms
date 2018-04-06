@@ -12,8 +12,26 @@ struct singly_node {
 
 struct singly_list {
   singly_link head;
-  singly_link tail;
 };
+
+SinglyList SinglyListNew(void) {
+  SinglyList list=(SinglyList)malloc(sizeof(*list));
+  if (list==NULL)
+    return(NULL);
+  return(list);
+}
+
+void SinglyListFree(SinglyList list) {
+  singly_link x=list->head;
+  singly_link tmp;
+  while (x!=NULL) {
+    tmp=x;
+    x=x->next;
+    free(tmp);
+  }
+  free(list);
+  return;
+}
 
 singly_link newSinglyNode(void *data, singly_link next) {
   singly_link x=(singly_link)malloc(sizeof(*x));
@@ -175,4 +193,12 @@ void* SinglyListExtractKey(SinglyList list, void *list_key, void* (*get_list_key
     }
   }
   return(data);
+}
+
+void SinglyListPrint(SinglyList list, void (*print_list_data)(const void *list_data)) {
+  singly_link head=list->head;
+  singly_link x;
+  for (x=head; x!=NULL; x=x->next)
+    print_list_data(x->data);
+  return;
 }
