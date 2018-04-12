@@ -87,7 +87,7 @@ void* SinglyListSearchSort(OrderedSinglyList list, void *list_key, void* (*get_l
   return(NULL);
 }
 
-int SinglyListDeleteKey(UnorderedSinglyList list, void *list_key, void* (*get_list_key)(const void *list_data), int (*cmp_list_key)(const void *a, const void *b)) {
+int SinglyListDeleteKey(UnorderedSinglyList list, void *list_key, void* (*get_list_key)(const void *list_data), int (*cmp_list_key)(const void *a, const void *b), void (*free_list_data)(const void *list_data)) {
   singly_link x, p;
   if (list->head==NULL)
     return(0);
@@ -97,15 +97,15 @@ int SinglyListDeleteKey(UnorderedSinglyList list, void *list_key, void* (*get_li
         list->head=x->next;
       else
         p->next=x->next;
-      free(x->data);
+      free_list_data(x->data);
       free(x);
-      break;
+      return(1);
     }
   }
-  return(1);
+  return(0);
 }
 
-int SinglyListDeleteKeySort(OrderedSinglyList list, void *list_key, void* (*get_list_key)(const void *list_data), int (*cmp_list_key)(const void *a, const void *b)) {
+int SinglyListDeleteKeySort(OrderedSinglyList list, void *list_key, void* (*get_list_key)(const void *list_data), int (*cmp_list_key)(const void *a, const void *b), void (*free_list_data)(const void *list_data)) {
   singly_link x, p;
   if (list->head==NULL)
     return(0);
@@ -115,31 +115,31 @@ int SinglyListDeleteKeySort(OrderedSinglyList list, void *list_key, void* (*get_
         list->head=x->next;
       else
         p->next=x->next;
-      free(x->data);
+      free_list_data(x->data);
       free(x);
-      break;
+      return(1);
     }
   }
-  return(1);
+  return(0);
 }
 
-int SinglyListDeleteHead(SinglyList list) {
+int SinglyListDeleteHead(SinglyList list, void (*free_list_data)(const void *list_data)) {
   singly_link x=list->head;
   if (list->head==NULL)
     return(0);
   list->head=list->head->next;
-  free(x->data);
+  free_list_data(x->data);
   free(x);
   return(1);
 }
 
-int SinglyListDeleteTail(SinglyList list) {
+int SinglyListDeleteTail(SinglyList list, void (*free_list_data)(const void *list_data)) {
   singly_link x, tmp;
   if (list->head==NULL)
     return(0);
   for (x=list->head; x->next!=NULL; tmp=x, x=x->next);
   tmp->next=NULL;
-  free(x->data);
+  free_list_data(x->data);
   free(x);
   return(1);
 }
@@ -157,8 +157,11 @@ void* SinglyListExtractHead(SinglyList list) {
 
 void* SinglyListExtractTail(SinglyList list) {
   singly_link x, p;
-  void *data=NULL;
-  for (x=list->head; x!=NULL; p=x, x=x->next);
+  void *data;
+  if (list->head==NULL) {
+    return(NULL);
+  }
+  for (x=list->head; x->next!=NULL; p=x, x=x->next);
   if (x==list->head) {
     list->head=x->next;
     data=x->data;
@@ -183,7 +186,7 @@ void* SinglyListExtractKey(SinglyList list, void *list_key, void* (*get_list_key
         data=x->data;
       }
       free(x);
-      break;
+      return(data);
     }
   }
   return(data);
