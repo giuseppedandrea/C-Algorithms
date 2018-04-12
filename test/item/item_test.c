@@ -32,12 +32,12 @@ int main(int argc, char const *argv[]) {
 
   Item *item=(Item *)malloc(n*sizeof(*item));
   for (size_t i = 0; i < n; i++) {
-    item[i]=ITEMsetVoid();
+    item[i]=NULL;
 
-    if (ITEMcheckVoid(item[i])) {
-      printf("Item %p is void\n", item[i]);
+    if (item[i]==NULL) {
+      printf("Item %p is NULL\n", item[i]);
     } else {
-      printf("Item %p is not void\n", item[i]);
+      printf("Item %p is not NULL\n", item[i]);
     }
   }
 
@@ -45,10 +45,10 @@ int main(int argc, char const *argv[]) {
   for (size_t i = 0; i < n; i++) {
     item[i]=ITEMnew(k);
 
-    if (ITEMcheckVoid(item[i])) {
-      printf("Item %p is void\n", item[i]);
+    if (item[i]==NULL) {
+      printf("Item %p is NULL\n", item[i]);
     } else {
-      printf("Item %p is not void\n", item[i]);
+      printf("Item %p is not NULL\n", item[i]);
     }
 
     ITEMaddMember(item[i], sizeof(int));
