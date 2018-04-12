@@ -97,6 +97,7 @@ int SinglyListDeleteKey(UnorderedSinglyList list, void *list_key, void* (*get_li
         list->head=x->next;
       else
         p->next=x->next;
+      free(x->data);
       free(x);
       break;
     }
@@ -114,6 +115,7 @@ int SinglyListDeleteKeySort(OrderedSinglyList list, void *list_key, void* (*get_
         list->head=x->next;
       else
         p->next=x->next;
+      free(x->data);
       free(x);
       break;
     }
@@ -122,11 +124,12 @@ int SinglyListDeleteKeySort(OrderedSinglyList list, void *list_key, void* (*get_
 }
 
 int SinglyListDeleteHead(SinglyList list) {
-  singly_link tmp=list->head;
+  singly_link x=list->head;
   if (list->head==NULL)
     return(0);
   list->head=list->head->next;
-  free(tmp);
+  free(x->data);
+  free(x);
   return(1);
 }
 
@@ -136,18 +139,19 @@ int SinglyListDeleteTail(SinglyList list) {
     return(0);
   for (x=list->head; x->next!=NULL; tmp=x, x=x->next);
   tmp->next=NULL;
+  free(x->data);
   free(x);
   return(1);
 }
 
 void* SinglyListExtractHead(SinglyList list) {
-  singly_link tmp=list->head;
+  singly_link x=list->head;
   void *data;
-  if (tmp==NULL)
+  if (x==NULL)
     return(NULL);
-  data=tmp->data;
-  list->head=tmp->next;
-  free(tmp);
+  data=x->data;
+  list->head=x->next;
+  free(x);
   return(data);
 }
 
